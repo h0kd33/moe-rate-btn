@@ -1,0 +1,152 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+<dom-module id="moe-rate-btn">
+    <template>
+        <style include="iron-flex iron-flex-alignment">
+            :host {
+                display: table;
+                color: maroon;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                white-space: nowrap;
+                line-height: 20px;
+            }
+
+            #container {
+                background-color: white;
+            }
+
+            #container {
+            }
+            #rateUp, #rateDown {
+                cursor: pointer;
+                background: #f0e0d6;
+                padding: 3px 23px 3px 13px;
+            }
+            :host[disable] #rateUp, :host[disable] #rateDown {
+                cursor: default;
+                background: white;
+            }
+            :host:not([disable]) #rateUp:hover, :host:not([disable]) #rateDown:hover {
+                background-color: #ea8;
+            }
+
+            :host:not([disable]) #rateUp:active, :host:not([disable]) #rateDown:active {
+                background-color: white;
+            }
+            #rateUp, #rateDown {
+                font-family: "MS PGothic", '新細明體', sans-serif;
+            }
+            #rateUp {
+                text-align: left;
+            }
+
+            #rateDown {
+                text-align: right;
+            }
+            #rate {
+                position: relative;
+                line-height: 26px;
+            }
+            :host[rated=down] #rateDown, :host[rated=up] #rateUp {
+                background: #D1FBFF;
+            }
+            #rate span:first-child, #rate span:last-child {
+                padding: 0 6px
+            }
+
+            #rate::after {
+                content: "";
+                display: block;
+                position: absolute;
+                left: -10px;
+                top: 0;
+                width: 0;
+                border-width: 13px 0 13px 10px;
+                border-style: solid;
+                border-color: #fff transparent;
+            }
+
+            #rate::before {
+                content: "";
+                display: block;
+                position: absolute;
+                right: -10px;
+                top: 0;
+                width: 0;
+                border-width: 13px 10px 13px 0;
+                border-style: solid;
+                border-color: #fff transparent;
+            }
+        </style>
+
+        <div id="container" class="layout horizontal">
+
+            <a id="rateDown" on-tap="_handleRateTap" action-type="down">( ・_ゝ・)</a>
+
+            <span id="rate" class="layout horizontal flex ">
+                <span>[[rateDown]]</span>
+                <span> vs</span>
+                <span>[[rateUp]]</span>
+            </span>
+
+            <a id="rateUp" on-tap="_handleRateTap" action-type="up">(・∀・)ｂ</a>
+
+        </div>
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+            Polymer({
+
+                is: 'moe-rate-btn',
+
+                properties: {
+                    data: {
+                        type: Array,
+                        value: function () {
+                            return []
+                        }
+                    },
+                    rateUp: {
+                        type: Number,
+                        value: 0
+                    },
+                    rateDown: {
+                        type: Number,
+                        value: 0
+                    },
+                    disable: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true
+                    },
+                    rated: {
+                        type: String,
+                        reflectToAttribute: true
+                    }
+                },
+                _handleRateTap: function(e) {
+                    var target = e.target;
+                    var action = target.getAttribute('action-type');
+                    switch(action) {
+                        case 'up':
+                            if(this.disable) return;
+                            this.rateUp ++;
+                            this.rated = 'up';
+                            this.toggleAttribute('disable', true);
+                            break;
+                        case 'down':
+                            if(this.disable) return;
+                            this.rateDown ++;
+                            this.rated = 'down';
+                            this.toggleAttribute('disable', true);
+                            break;
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

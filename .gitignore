@@ -27,3 +27,5 @@ build/Release
 bower_components
 node_modules
 vendor
+
+.idea
